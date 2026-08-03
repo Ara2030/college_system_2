@@ -5,6 +5,7 @@ from app.routers import students, groups, journal, schedule, employees, subjects
 from app.database import engine
 from app.models import Base
 
+from fastapi.staticfiles import StaticFiles
 # Создаём таблицы только если нужно (можно закомментировать при использовании Alembic)
 # Base.metadata.create_all(bind=engine)
 
@@ -30,6 +31,8 @@ app.include_router(employees.router)
 app.include_router(subjects.router)
 app.include_router(attestation.router)
 app.include_router(orders.router)
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 def root():
