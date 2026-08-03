@@ -27,3 +27,4 @@ class Student(Base):
 
     group = relationship("Group", back_populates="students")
     grades = relationship("Grade", back_populates="student")
+    orders = relationship("Order", back_populates="student")

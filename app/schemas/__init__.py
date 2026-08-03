@@ -6,3 +6,14 @@ from .journal import GradeCreate, GradeOut
 from .schedule import LessonCreate, LessonOut
 from .attestation import AttestationCreate, AttestationOut
 from .order import OrderCreate, OrderOut
+
+__all__ = [
+    "StudentCreate", "StudentOut", "StudentUpdate",
+    "GroupCreate", "GroupOut",
+    "EmployeeCreate", "EmployeeOut",
+    "SubjectCreate", "SubjectOut",
+    "GradeCreate", "GradeOut",
+    "LessonCreate", "LessonOut",
+    "AttestationCreate", "AttestationOut",
+    "OrderCreate", "OrderOut",
+]
