@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import students, groups, journal, schedule
+from app.routers import students, groups, journal, schedule, employees, subjects, attestation, orders
 from app.database import engine
 from app.models import Base
 
@@ -21,11 +21,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Подключение всех роутеров
 app.include_router(students.router)
 app.include_router(groups.router)
 app.include_router(journal.router)
 app.include_router(schedule.router)
-
+app.include_router(employees.router)
+app.include_router(subjects.router)
+app.include_router(attestation.router)
+app.include_router(orders.router)
 
 @app.get("/")
 def root():
