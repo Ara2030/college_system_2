@@ -1,5 +1,5 @@
 from .base import Base
-
+from .workload import Workload
 from .group import Group
 from .student import Student, StudentStatus
 from .employee import Employee
@@ -21,4 +21,5 @@ __all__ = [
     "Lesson",
     "Attestation",
     "Order",
+    "Workload",
 ]
