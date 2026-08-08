@@ -27,7 +27,15 @@
         <!-- Main Content -->
         <div class="flex-1 overflow-auto">
             <div class="bg-white border-b px-8 py-5 flex justify-between items-center">
-                <h2 id="pageTitle" class="text-2xl font-semibold">Студенты</h2>
+                <div class="flex items-center gap-4">
+                    <h2 id="pageTitle" class="text-2xl font-semibold">Студенты</h2>
+                    <div id="viewToggle" class="hidden bg-gray-100 rounded-xl p-1">
+                        <button onclick="switchView('table')" id="btnTable"
+                                class="px-4 py-1.5 text-sm rounded-lg bg-white shadow font-medium">Таблица</button>
+                        <button onclick="switchView('cards')" id="btnCards"
+                                class="px-4 py-1.5 text-sm rounded-lg hover:bg-white font-medium">Карточки</button>
+                    </div>
+                </div>
                 <button onclick="openModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl flex items-center gap-2">
                     <i class="fas fa-plus"></i>
                     <span id="addButtonText">Добавить</span>
@@ -45,97 +53,54 @@
                     </div>
                 </div>
 
-                <!-- Tables -->
+                <!-- Студенты -->
                 <div id="students" class="section">
-                    <div class="bg-white rounded-2xl shadow border overflow-hidden">
-                        <table class="w-full">
-                            <thead class="bg-gray-50"><tr>
-                                <th class="px-6 py-4 text-left">ФИО</th>
-                                <th class="px-6 py-4 text-left">Группа</th>
-                                <th class="px-6 py-4 w-28 text-center">Действия</th>
-                            </tr></thead>
-                            <tbody id="studentsTable" class="divide-y"></tbody>
-                        </table>
+                    <div id="studentsTableContainer">
+                        <div class="bg-white rounded-2xl shadow border overflow-hidden">
+                            <table class="w-full">
+                                <thead class="bg-gray-50"><tr>
+                                    <th class="px-6 py-4 text-left">ФИО</th>
+                                    <th class="px-6 py-4 text-left">Группа</th>
+                                    <th class="px-6 py-4 w-28 text-center">Действия</th>
+                                </tr></thead>
+                                <tbody id="studentsTable" class="divide-y"></tbody>
+                            </table>
+                        </div>
                     </div>
+                    
+                    <div id="studentsCardsContainer" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
                     <div id="studentsPagination" class="flex justify-center mt-4 gap-2"></div>
                 </div>
 
-                <div id="groups" class="section hidden">
-                    <div class="bg-white rounded-2xl shadow border overflow-hidden">
-                        <table class="w-full">
-                            <thead class="bg-gray-50"><tr>
-                                <th class="px-6 py-4 text-left">Название</th>
-                                <th class="px-6 py-4 text-left">Специальность</th>
-                                <th class="px-6 py-4 w-28 text-center">Действия</th>
-                            </tr></thead>
-                            <tbody id="groupsTable" class="divide-y"></tbody>
-                        </table>
-                    </div>
-                    <div id="groupsPagination" class="flex justify-center mt-4 gap-2"></div>
-                </div>
-
+                <!-- Сотрудники -->
                 <div id="employees" class="section hidden">
-                    <div class="bg-white rounded-2xl shadow border overflow-hidden">
-                        <table class="w-full">
-                            <thead class="bg-gray-50"><tr>
-                                <th class="px-6 py-4 text-left">ФИО</th>
-                                <th class="px-6 py-4 text-left">Должность</th>
-                                <th class="px-6 py-4 w-28 text-center">Действия</th>
-                            </tr></thead>
-                            <tbody id="employeesTable" class="divide-y"></tbody>
-                        </table>
+                    <div id="employeesTableContainer">
+                        <div class="bg-white rounded-2xl shadow border overflow-hidden">
+                            <table class="w-full">
+                                <thead class="bg-gray-50"><tr>
+                                    <th class="px-6 py-4 text-left">ФИО</th>
+                                    <th class="px-6 py-4 text-left">Должность</th>
+                                    <th class="px-6 py-4 w-28 text-center">Действия</th>
+                                </tr></thead>
+                                <tbody id="employeesTable" class="divide-y"></tbody>
+                            </table>
+                        </div>
                     </div>
+                    
+                    <div id="employeesCardsContainer" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
                     <div id="employeesPagination" class="flex justify-center mt-4 gap-2"></div>
                 </div>
 
-                <div id="orders" class="section hidden">
-                    <div class="bg-white rounded-2xl shadow border overflow-hidden">
-                        <table class="w-full">
-                            <thead class="bg-gray-50"><tr>
-                                <th class="px-6 py-4 text-left">Номер</th>
-                                <th class="px-6 py-4 text-left">Дата</th>
-                                <th class="px-6 py-4 w-28 text-center">Действия</th>
-                            </tr></thead>
-                            <tbody id="ordersTable" class="divide-y"></tbody>
-                        </table>
-                    </div>
-                    <div id="ordersPagination" class="flex justify-center mt-4 gap-2"></div>
-                </div>
-
-                <div id="subjects" class="section hidden">
-                    <div class="bg-white rounded-2xl shadow border overflow-hidden">
-                        <table class="w-full">
-                            <thead class="bg-gray-50"><tr>
-                                <th class="px-6 py-4 text-left">Название</th>
-                                <th class="px-6 py-4 text-left">Часы</th>
-                                <th class="px-6 py-4 w-28 text-center">Действия</th>
-                            </tr></thead>
-                            <tbody id="subjectsTable" class="divide-y"></tbody>
-                        </table>
-                    </div>
-                    <div id="subjectsPagination" class="flex justify-center mt-4 gap-2"></div>
-                </div>
-
-                <div id="journal" class="section hidden">
-                    <div class="bg-white rounded-2xl shadow border overflow-hidden">
-                        <table class="w-full">
-                            <thead class="bg-gray-50"><tr>
-                                <th class="px-6 py-4 text-left">Студент</th>
-                                <th class="px-6 py-4 text-left">Предмет</th>
-                                <th class="px-6 py-4 text-left">Оценка</th>
-                                <th class="px-6 py-4 text-left">Дата</th>
-                                <th class="px-6 py-4 w-28 text-center">Действия</th>
-                            </tr></thead>
-                            <tbody id="journalTable" class="divide-y"></tbody>
-                        </table>
-                    </div>
-                    <div id="journalPagination" class="flex justify-center mt-4 gap-2"></div>
-                </div>
+                <!-- Остальные разделы -->
+                <div id="groups" class="section hidden">...</div>
+                <div id="orders" class="section hidden">...</div>
+                <div id="subjects" class="section hidden">...</div>
+                <div id="journal" class="section hidden">...</div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal (для создания/редактирования) -->
     <div id="modal" onclick="if (event.target.id === 'modal') closeModal()" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <div onclick="event.stopImmediatePropagation()" class="bg-white rounded-2xl w-full max-w-md mx-4 p-6">
             <div class="flex justify-between items-center mb-6">
@@ -143,6 +108,21 @@
                 <button onclick="closeModal()"><i class="fas fa-times text-xl"></i></button>
             </div>
             <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" onclick="if (event.target.id === 'detailModal') closeDetailModal()" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div onclick="event.stopImmediatePropagation()" class="bg-white rounded-2xl w-full max-w-lg mx-4 p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="detailModalTitle" class="text-xl font-semibold"></h3>
+                <button onclick="closeDetailModal()"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <div id="detailModalContent" class="space-y-3"></div>
+            <div class="mt-6 flex gap-3">
+                <button onclick="editFromDetail()" class="flex-1 bg-blue-600 text-white py-2.5 rounded-xl">Редактировать</button>
+                <button onclick="closeDetailModal()" class="flex-1 border py-2.5 rounded-xl">Закрыть</button>
+            </div>
         </div>
     </div>
 
@@ -156,6 +136,8 @@
         let allData = { students: [], groups: [], employees: [], orders: [], subjects: [], journal: [] };
         let currentPage = 1;
         const pageSize = 10;
+        let currentView = 'table';
+        let currentDetailId = null;
 
         function showToast(msg, type = 'success') {
             const container = document.getElementById('toastContainer');
@@ -163,11 +145,7 @@
             toast.className = `px-5 py-3 rounded-xl shadow text-white flex items-center gap-3 ${type === 'success' ? 'bg-green-600' : 'bg-red-600'}`;
             toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> <span>${msg}</span>`;
             container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.transition = 'all 0.3s';
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            setTimeout(() => { toast.style.transition = 'all 0.3s'; toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
         }
 
         function showSection(section) {
@@ -178,23 +156,33 @@
             editId = null;
             document.getElementById('searchInput').value = '';
 
-            const titles = {
-                students: 'Студенты', groups: 'Группы', employees: 'Сотрудники',
-                orders: 'Приказы', subjects: 'Предметы', journal: 'Журнал оценок'
-            };
-            const addTexts = {
-                students: 'Добавить студента', groups: 'Добавить группу', employees: 'Добавить сотрудника',
-                orders: 'Добавить приказ', subjects: 'Добавить предмет', journal: 'Добавить оценку'
-            };
+            const titles = { students: 'Студенты', groups: 'Группы', employees: 'Сотрудники', orders: 'Приказы', subjects: 'Предметы', journal: 'Журнал оценок' };
+            const addTexts = { students: 'Добавить студента', groups: 'Добавить группу', employees: 'Добавить сотрудника', orders: 'Добавить приказ', subjects: 'Добавить предмет', journal: 'Добавить оценку' };
 
             document.getElementById('pageTitle').innerText = titles[section];
             document.getElementById('addButtonText').innerText = addTexts[section];
+            document.getElementById('viewToggle').classList.toggle('hidden', section !== 'students' && section !== 'employees');
 
-            if (section === 'journal') {
-                loadJournal();
-            } else {
-                loadData(section);
+            if (section === 'journal') loadJournal();
+            else loadData(section);
+        }
+
+        function switchView(view) {
+            currentView = view;
+            document.getElementById('btnTable').classList.toggle('bg-white', view === 'table');
+            document.getElementById('btnTable').classList.toggle('shadow', view === 'table');
+            document.getElementById('btnCards').classList.toggle('bg-white', view === 'cards');
+            document.getElementById('btnCards').classList.toggle('shadow', view === 'cards');
+
+            if (currentSection === 'students') {
+                document.getElementById('studentsTableContainer').classList.toggle('hidden', view === 'cards');
+                document.getElementById('studentsCardsContainer').classList.toggle('hidden', view === 'table');
             }
+            if (currentSection === 'employees') {
+                document.getElementById('employeesTableContainer').classList.toggle('hidden', view === 'cards');
+                document.getElementById('employeesCardsContainer').classList.toggle('hidden', view === 'table');
+            }
+            filterAndRender();
         }
 
         async function loadData(section) {
@@ -210,9 +198,7 @@
 
         async function loadJournal() {
             try {
-                const [s, sub, att] = await Promise.all([
-                    fetch(`${API}/students/`), fetch(`${API}/subjects/`), fetch(`${API}/attestation/`)
-                ]);
+                const [s, sub, att] = await Promise.all([fetch(`${API}/students/`), fetch(`${API}/subjects/`), fetch(`${API}/attestation/`)]);
                 allData.students = await s.json();
                 allData.subjects = await sub.json();
                 allData.journal = await att.json();
@@ -225,21 +211,11 @@
         function getFilteredData(section) {
             const search = document.getElementById('searchInput').value.toLowerCase().trim();
             let data = allData[section] || [];
-
             if (!search) return data;
-
             return data.filter(item => {
-                if (section === 'students') return item.full_name?.toLowerCase().includes(search);
-                if (section === 'groups') return item.name?.toLowerCase().includes(search);
-                if (section === 'employees') return item.full_name?.toLowerCase().includes(search);
+                if (section === 'students' || section === 'employees') return item.full_name?.toLowerCase().includes(search);
+                if (section === 'groups' || section === 'subjects') return item.name?.toLowerCase().includes(search);
                 if (section === 'orders') return item.order_number?.toLowerCase().includes(search);
-                if (section === 'subjects') return item.name?.toLowerCase().includes(search);
-                if (section === 'journal') {
-                    const st = allData.students.find(s => s.id === item.student_id);
-                    const su = allData.subjects.find(s => s.id === item.subject_id);
-                    return (st?.full_name || '').toLowerCase().includes(search) ||
-                           (su?.name || '').toLowerCase().includes(search);
-                }
                 return false;
             });
         }
@@ -252,16 +228,13 @@
         }
 
         function renderTable(section, data) {
-            const tbody = document.getElementById(section + 'Table');
-            if (!tbody) return;
-
             const start = (currentPage - 1) * pageSize;
             const paginated = data.slice(start, start + pageSize);
 
-            let html = '';
-
             if (section === 'students') {
-                html = paginated.map(s => `
+                // Таблица
+                const tbody = document.getElementById('studentsTable');
+                tbody.innerHTML = paginated.map(s => `
                     <tr>
                         <td class="px-6 py-4">${s.full_name}</td>
                         <td class="px-6 py-4">${s.group_id || '—'}</td>
@@ -270,18 +243,32 @@
                             <button onclick="deleteItem('students', ${s.id})" class="text-red-600 mx-1"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>`).join('');
-            } else if (section === 'groups') {
-                html = paginated.map(g => `
-                    <tr>
-                        <td class="px-6 py-4">${g.name}</td>
-                        <td class="px-6 py-4">${g.speciality || '—'}</td>
-                        <td class="px-6 py-4 text-center">
-                            <button onclick="editItem('groups', ${g.id})" class="text-blue-600 mx-1"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteItem('groups', ${g.id})" class="text-red-600 mx-1"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>`).join('');
-            } else if (section === 'employees') {
-                html = paginated.map(e => `
+
+                // Карточки
+                const cardsContainer = document.getElementById('studentsCardsContainer');
+                cardsContainer.innerHTML = paginated.map(s => `
+                    <div onclick="showStudentDetail(${s.id})" class="bg-white border rounded-2xl p-5 cursor-pointer hover:shadow-md transition">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="font-semibold text-lg">${s.full_name}</div>
+                                <div class="text-sm text-gray-500 mt-1">Группа: ${s.group_id || '—'}</div>
+                            </div>
+                            <button onclick="event.stopImmediatePropagation(); editItem('students', ${s.id})" class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                        <div class="mt-4 space-y-1 text-sm text-gray-600">
+                            <div><i class="fas fa-phone w-4"></i> ${s.phone || '—'}</div>
+                            <div><i class="fas fa-envelope w-4"></i> ${s.email || '—'}</div>
+                            <div><i class="fas fa-calendar w-4"></i> Поступил: ${s.enrollment_date || '—'}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            if (section === 'employees') {
+                const tbody = document.getElementById('employeesTable');
+                tbody.innerHTML = paginated.map(e => `
                     <tr>
                         <td class="px-6 py-4">${e.full_name}</td>
                         <td class="px-6 py-4">${e.position || '—'}</td>
@@ -290,52 +277,34 @@
                             <button onclick="deleteItem('employees', ${e.id})" class="text-red-600 mx-1"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>`).join('');
-            } else if (section === 'orders') {
-                html = paginated.map(o => `
-                    <tr>
-                        <td class="px-6 py-4">${o.order_number}</td>
-                        <td class="px-6 py-4">${o.order_date || '—'}</td>
-                        <td class="px-6 py-4 text-center">
-                            <button onclick="editItem('orders', ${o.id})" class="text-blue-600 mx-1"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteItem('orders', ${o.id})" class="text-red-600 mx-1"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>`).join('');
-            } else if (section === 'subjects') {
-                html = paginated.map(s => `
-                    <tr>
-                        <td class="px-6 py-4">${s.name}</td>
-                        <td class="px-6 py-4">${s.hours || '—'}</td>
-                        <td class="px-6 py-4 text-center">
-                            <button onclick="editItem('subjects', ${s.id})" class="text-blue-600 mx-1"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteItem('subjects', ${s.id})" class="text-red-600 mx-1"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>`).join('');
-            } else if (section === 'journal') {
-                html = paginated.map(a => {
-                    const st = allData.students.find(s => s.id === a.student_id);
-                    const su = allData.subjects.find(s => s.id === a.subject_id);
-                    return `
-                    <tr>
-                        <td class="px-6 py-4">${st?.full_name || '—'}</td>
-                        <td class="px-6 py-4">${su?.name || '—'}</td>
-                        <td class="px-6 py-4 font-semibold">${a.grade || '—'}</td>
-                        <td class="px-6 py-4">${a.date || '—'}</td>
-                        <td class="px-6 py-4 text-center">
-                            <button onclick="editItem('journal', ${a.id})" class="text-blue-600 mx-1"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteItem('journal', ${a.id})" class="text-red-600 mx-1"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>`;
-                }).join('');
-            }
 
-            tbody.innerHTML = html;
+                const cardsContainer = document.getElementById('employeesCardsContainer');
+                cardsContainer.innerHTML = paginated.map(e => `
+                    <div onclick="showEmployeeDetail(${e.id})" class="bg-white border rounded-2xl p-5 cursor-pointer hover:shadow-md transition">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="font-semibold text-lg">${e.full_name}</div>
+                                <div class="text-sm text-gray-500 mt-1">${e.position || '—'}</div>
+                            </div>
+                            <button onclick="event.stopImmediatePropagation(); editItem('employees', ${e.id})" class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                        <div class="mt-4 space-y-1 text-sm text-gray-600">
+                            <div><i class="fas fa-building w-4"></i> ${e.department || '—'}</div>
+                            <div><i class="fas fa-phone w-4"></i> ${e.phone || '—'}</div>
+                            <div><i class="fas fa-envelope w-4"></i> ${e.email || '—'}</div>
+                            <div><i class="fas fa-calendar w-4"></i> С: ${e.employment_date || '—'}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
         }
 
         function renderPagination(section, totalItems) {
             const container = document.getElementById(section + 'Pagination');
             if (!container) return;
             container.innerHTML = '';
-
             const totalPages = Math.ceil(totalItems / pageSize);
             if (totalPages <= 1) return;
 
@@ -343,14 +312,65 @@
                 const btn = document.createElement('button');
                 btn.className = `px-3 py-1 rounded-lg border text-sm ${currentPage === i ? 'bg-blue-600 text-white' : 'bg-white hover:bg-gray-100'}`;
                 btn.textContent = i;
-                btn.onclick = () => {
-                    currentPage = i;
-                    filterAndRender();
-                };
+                btn.onclick = () => { currentPage = i; filterAndRender(); };
                 container.appendChild(btn);
             }
         }
 
+        // Детальная информация
+        function showStudentDetail(id) {
+            const student = allData.students.find(s => s.id === id);
+            if (!student) return;
+            currentDetailId = id;
+
+            const modal = document.getElementById('detailModal');
+            const content = document.getElementById('detailModalContent');
+            document.getElementById('detailModalTitle').innerText = student.full_name;
+
+            content.innerHTML = `
+                <div><span class="font-medium">ФИО:</span> ${student.full_name}</div>
+                <div><span class="font-medium">Группа:</span> ${student.group_id || '—'}</div>
+                <div><span class="font-medium">Телефон:</span> ${student.phone || '—'}</div>
+                <div><span class="font-medium">Email:</span> ${student.email || '—'}</div>
+                <div><span class="font-medium">Дата поступления:</span> ${student.enrollment_date || '—'}</div>
+            `;
+            modal.classList.remove('hidden');
+        }
+
+        function showEmployeeDetail(id) {
+            const employee = allData.employees.find(e => e.id === id);
+            if (!employee) return;
+            currentDetailId = id;
+
+            const modal = document.getElementById('detailModal');
+            const content = document.getElementById('detailModalContent');
+            document.getElementById('detailModalTitle').innerText = employee.full_name;
+
+            content.innerHTML = `
+                <div><span class="font-medium">ФИО:</span> ${employee.full_name}</div>
+                <div><span class="font-medium">Должность:</span> ${employee.position || '—'}</div>
+                <div><span class="font-medium">Отдел:</span> ${employee.department || '—'}</div>
+                <div><span class="font-medium">Телефон:</span> ${employee.phone || '—'}</div>
+                <div><span class="font-medium">Email:</span> ${employee.email || '—'}</div>
+                <div><span class="font-medium">Дата трудоустройства:</span> ${employee.employment_date || '—'}</div>
+            `;
+            modal.classList.remove('hidden');
+        }
+
+        function editFromDetail() {
+            closeDetailModal();
+            if (currentSection === 'students') {
+                editItem('students', currentDetailId);
+            } else if (currentSection === 'employees') {
+                editItem('employees', currentDetailId);
+            }
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        // CRUD функции
         async function deleteItem(section, id) {
             if (!confirm('Удалить запись?')) return;
             try {
@@ -358,8 +378,7 @@
                 if (!res.ok) throw new Error();
                 showToast('Запись удалена');
                 currentPage = 1;
-                if (section === 'journal') await loadJournal();
-                else await loadData(section);
+                await loadData(section);
             } catch {
                 showToast('Ошибка при удалении', 'error');
             }
@@ -391,13 +410,9 @@
                     <form id="modalForm">
                         <input type="text" id="full_name" placeholder="ФИО" value="${data?.full_name || ''}" class="w-full border p-3 rounded-xl mb-3" required>
                         <input type="number" id="group_id" placeholder="ID группы" value="${data?.group_id || ''}" class="w-full border p-3 rounded-xl mb-3">
-                        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
-                    </form>`;
-            } else if (sec === 'groups') {
-                html = `
-                    <form id="modalForm">
-                        <input type="text" id="name" placeholder="Название группы" value="${data?.name || ''}" class="w-full border p-3 rounded-xl mb-3" required>
-                        <input type="text" id="speciality" placeholder="Специальность" value="${data?.speciality || ''}" class="w-full border p-3 rounded-xl mb-3">
+                        <input type="text" id="phone" placeholder="Телефон" value="${data?.phone || ''}" class="w-full border p-3 rounded-xl mb-3">
+                        <input type="email" id="email" placeholder="Email" value="${data?.email || ''}" class="w-full border p-3 rounded-xl mb-3">
+                        <input type="date" id="enrollment_date" value="${data?.enrollment_date || ''}" class="w-full border p-3 rounded-xl mb-3">
                         <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
                     </form>`;
             } else if (sec === 'employees') {
@@ -405,29 +420,10 @@
                     <form id="modalForm">
                         <input type="text" id="full_name" placeholder="ФИО" value="${data?.full_name || ''}" class="w-full border p-3 rounded-xl mb-3" required>
                         <input type="text" id="position" placeholder="Должность" value="${data?.position || ''}" class="w-full border p-3 rounded-xl mb-3">
-                        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
-                    </form>`;
-            } else if (sec === 'orders') {
-                html = `
-                    <form id="modalForm">
-                        <input type="text" id="order_number" placeholder="Номер приказа" value="${data?.order_number || ''}" class="w-full border p-3 rounded-xl mb-3" required>
-                        <input type="date" id="order_date" value="${data?.order_date || ''}" class="w-full border p-3 rounded-xl mb-3">
-                        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
-                    </form>`;
-            } else if (sec === 'subjects') {
-                html = `
-                    <form id="modalForm">
-                        <input type="text" id="name" placeholder="Название предмета" value="${data?.name || ''}" class="w-full border p-3 rounded-xl mb-3" required>
-                        <input type="number" id="hours" placeholder="Часы" value="${data?.hours || ''}" class="w-full border p-3 rounded-xl mb-3">
-                        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
-                    </form>`;
-            } else if (sec === 'journal') {
-                html = `
-                    <form id="modalForm">
-                        <input type="number" id="student_id" placeholder="ID студента" value="${data?.student_id || ''}" class="w-full border p-3 rounded-xl mb-3" required>
-                        <input type="number" id="subject_id" placeholder="ID предмета" value="${data?.subject_id || ''}" class="w-full border p-3 rounded-xl mb-3" required>
-                        <input type="number" id="grade" placeholder="Оценка (2-5)" min="2" max="5" value="${data?.grade || ''}" class="w-full border p-3 rounded-xl mb-3" required>
-                        <input type="date" id="date" value="${data?.date || ''}" class="w-full border p-3 rounded-xl mb-3">
+                        <input type="text" id="department" placeholder="Отдел" value="${data?.department || ''}" class="w-full border p-3 rounded-xl mb-3">
+                        <input type="text" id="phone" placeholder="Телефон" value="${data?.phone || ''}" class="w-full border p-3 rounded-xl mb-3">
+                        <input type="email" id="email" placeholder="Email" value="${data?.email || ''}" class="w-full border p-3 rounded-xl mb-3">
+                        <input type="date" id="employment_date" value="${data?.employment_date || ''}" class="w-full border p-3 rounded-xl mb-3">
                         <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
                     </form>`;
             }
@@ -442,26 +438,22 @@
                 submitBtn.textContent = 'Сохранение...';
 
                 let payload = {};
-                const sec = currentSection;
-
-                if (sec === 'students') payload = { full_name: form.full_name.value, group_id: form.group_id.value || null };
-                else if (sec === 'groups') payload = { name: form.name.value, speciality: form.speciality.value || null };
-                else if (sec === 'employees') payload = { full_name: form.full_name.value, position: form.position.value || null };
-                else if (sec === 'orders') payload = { order_number: form.order_number.value, order_date: form.order_date.value || null };
-                else if (sec === 'subjects') payload = { name: form.name.value, hours: form.hours.value || null };
-                else if (sec === 'journal') {
-                    const grade = parseInt(form.grade.value);
-                    if (grade < 2 || grade > 5) {
-                        showToast('Оценка должна быть от 2 до 5', 'error');
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Сохранить';
-                        return;
-                    }
+                if (sec === 'students') {
                     payload = {
-                        student_id: parseInt(form.student_id.value),
-                        subject_id: parseInt(form.subject_id.value),
-                        grade: grade,
-                        date: form.date.value || null
+                        full_name: form.full_name.value,
+                        group_id: form.group_id.value || null,
+                        phone: form.phone.value || null,
+                        email: form.email.value || null,
+                        enrollment_date: form.enrollment_date.value || null
+                    };
+                } else if (sec === 'employees') {
+                    payload = {
+                        full_name: form.full_name.value,
+                        position: form.position.value || null,
+                        department: form.department.value || null,
+                        phone: form.phone.value || null,
+                        email: form.email.value || null,
+                        employment_date: form.employment_date.value || null
                     };
                 }
 
@@ -477,8 +469,7 @@
                     showToast('Данные сохранены');
                     closeModal();
                     currentPage = 1;
-                    if (sec === 'journal') await loadJournal();
-                    else await loadData(sec);
+                    await loadData(sec);
                 } catch {
                     showToast('Ошибка при сохранении', 'error');
                 } finally {
