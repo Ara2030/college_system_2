@@ -15,7 +15,7 @@
                 <h1 class="text-2xl font-bold text-blue-600">ИС Колледжа</h1>
             </div>
             <nav class="px-3">
-                <a onclick="showSection('students')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-100 cursor-pointer mb-1 active">
+                <a onclick="showSection('students')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-100 cursor-pointer mb-1">
                     <i class="fas fa-users w-5"></i> <span>Студенты</span>
                 </a>
                 <a onclick="showSection('groups')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-100 cursor-pointer mb-1">
@@ -30,8 +30,8 @@
                 <a onclick="showSection('subjects')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-100 cursor-pointer mb-1">
                     <i class="fas fa-book w-5"></i> <span>Предметы</span>
                 </a>
-                <a onclick="showSection('attestation')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-100 cursor-pointer mb-1">
-                    <i class="fas fa-graduation-cap w-5"></i> <span>Аттестация</span>
+                <a onclick="showSection('journal')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-100 cursor-pointer mb-1 active">
+                    <i class="fas fa-book-open w-5"></i> <span>Журнал оценок</span>
                 </a>
             </nav>
         </div>
@@ -39,122 +39,48 @@
         <!-- Main Content -->
         <div class="flex-1 overflow-auto">
             <div class="bg-white border-b px-8 py-5 flex justify-between items-center">
-                <h2 id="pageTitle" class="text-2xl font-semibold">Студенты</h2>
+                <h2 id="pageTitle" class="text-2xl font-semibold">Журнал оценок</h2>
                 <button onclick="openModal()" class="bg-blue-600 text-white px-5 py-2.5 rounded-xl flex items-center gap-2">
                     <i class="fas fa-plus"></i>
-                    <span id="addButtonText">Добавить</span>
+                    <span id="addButtonText">Добавить оценку</span>
                 </button>
             </div>
 
             <div class="p-8">
-                <!-- Поиск и Фильтры -->
-                <div class="mb-4 flex gap-4 items-center">
-                    <div class="relative w-80">
-                        <input type="text" id="searchInput" placeholder="Поиск..." 
-                               class="w-full border px-4 py-2.5 pl-10 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-                               onkeyup="filterTable()">
-                        <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
-                    </div>
-                    
-                    <!-- Фильтр для студентов -->
-                    <div id="groupFilterContainer" class="hidden">
-                        <select id="groupFilter" onchange="filterTable()" class="border px-4 py-2.5 rounded-xl">
+                <!-- Фильтры -->
+                <div class="mb-4 flex gap-4">
+                    <div class="w-64">
+                        <select id="filterGroup" onchange="filterJournal()" class="w-full border px-4 py-2.5 rounded-xl">
                             <option value="">Все группы</option>
+                        </select>
+                    </div>
+                    <div class="w-64">
+                        <select id="filterSubject" onchange="filterJournal()" class="w-full border px-4 py-2.5 rounded-xl">
+                            <option value="">Все предметы</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Таблицы -->
-                <div id="students" class="section">
+                <!-- Таблица журнала -->
+                <div id="journal" class="section">
                     <div class="bg-white rounded-2xl shadow border overflow-hidden">
                         <table class="w-full">
-                            <thead class="bg-gray-50"><tr>
-                                <th class="px-6 py-4 text-left">ФИО</th>
-                                <th class="px-6 py-4 text-left">Группа</th>
-                                <th class="px-6 py-4 w-28 text-center">Действия</th>
-                            </tr></thead>
-                            <tbody id="studentsTable" class="divide-y"></tbody>
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-4 text-left">Студент</th>
+                                    <th class="px-6 py-4 text-left">Предмет</th>
+                                    <th class="px-6 py-4 text-left">Оценка</th>
+                                    <th class="px-6 py-4 text-left">Дата</th>
+                                    <th class="px-6 py-4 w-28 text-center">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="journalTable" class="divide-y"></tbody>
                         </table>
                     </div>
-                    <div id="studentsPagination" class="flex justify-center mt-4 gap-2"></div>
-                </div>
-
-                <div id="groups" class="section hidden">
-                    <div class="bg-white rounded-2xl shadow border overflow-hidden">
-                        <table class="w-full">
-                            <thead class="bg-gray-50"><tr>
-                                <th class="px-6 py-4 text-left">Название</th>
-                                <th class="px-6 py-4 text-left">Специальность</th>
-                                <th class="px-6 py-4 w-28 text-center">Действия</th>
-                            </tr></thead>
-                            <tbody id="groupsTable" class="divide-y"></tbody>
-                        </table>
-                    </div>
-                    <div id="groupsPagination" class="flex justify-center mt-4 gap-2"></div>
-                </div>
-
-                <div id="employees" class="section hidden">
-                    <div class="bg-white rounded-2xl shadow border overflow-hidden">
-                        <table class="w-full">
-                            <thead class="bg-gray-50"><tr>
-                                <th class="px-6 py-4 text-left">ФИО</th>
-                                <th class="px-6 py-4 text-left">Должность</th>
-                                <th class="px-6 py-4 w-28 text-center">Действия</th>
-                            </tr></thead>
-                            <tbody id="employeesTable" class="divide-y"></tbody>
-                        </table>
-                    </div>
-                    <div id="employeesPagination" class="flex justify-center mt-4 gap-2"></div>
-                </div>
-
-                <div id="orders" class="section hidden">
-                    <div class="bg-white rounded-2xl shadow border overflow-hidden">
-                        <table class="w-full">
-                            <thead class="bg-gray-50"><tr>
-                                <th class="px-6 py-4 text-left">Номер приказа</th>
-                                <th class="px-6 py-4 text-left">Дата</th>
-                                <th class="px-6 py-4 w-28 text-center">Действия</th>
-                            </tr></thead>
-                            <tbody id="ordersTable" class="divide-y"></tbody>
-                        </table>
-                    </div>
-                    <div id="ordersPagination" class="flex justify-center mt-4 gap-2"></div>
-                </div>
-
-                <div id="subjects" class="section hidden">
-                    <div class="bg-white rounded-2xl shadow border overflow-hidden">
-                        <table class="w-full">
-                            <thead class="bg-gray-50"><tr>
-                                <th class="px-6 py-4 text-left">Название предмета</th>
-                                <th class="px-6 py-4 text-left">Часы</th>
-                                <th class="px-6 py-4 w-28 text-center">Действия</th>
-                            </tr></thead>
-                            <tbody id="subjectsTable" class="divide-y"></tbody>
-                        </table>
-                    </div>
-                    <div id="subjectsPagination" class="flex justify-center mt-4 gap-2"></div>
-                </div>
-
-                <div id="attestation" class="section hidden">
-                    <div class="bg-white rounded-2xl shadow border overflow-hidden">
-                        <table class="w-full">
-                            <thead class="bg-gray-50"><tr>
-                                <th class="px-6 py-4 text-left">Студент</th>
-                                <th class="px-6 py-4 text-left">Предмет</th>
-                                <th class="px-6 py-4 text-left">Оценка</th>
-                                <th class="px-6 py-4 w-28 text-center">Действия</th>
-                            </tr></thead>
-                            <tbody id="attestationTable" class="divide-y"></tbody>
-                        </table>
-                    </div>
-                    <div id="attestationPagination" class="flex justify-center mt-4 gap-2"></div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Toast Container -->
-    <div id="toastContainer" class="fixed bottom-5 right-5 flex flex-col gap-2 z-50"></div>
 
     <!-- Modal -->
     <div id="modal" onclick="if (event.target.id === 'modal') closeModal()" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -167,268 +93,215 @@
         </div>
     </div>
 
+    <!-- Toast -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 flex flex-col gap-2 z-50"></div>
+
     <script>
         const API = "http://127.0.0.1:8000";
-        let currentSection = 'students';
+        let students = [];
+        let subjects = [];
+        let attestations = [];
         let editId = null;
-        let allData = {};
-        let currentPage = 1;
-        const pageSize = 10;
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `px-5 py-3 rounded-xl shadow text-white flex items-center gap-3 ${type === 'success' ? 'bg-green-600' : 'bg-red-600'}`;
-            toast.innerHTML = `
-                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
-                <span>${message}</span>
-            `;
+            toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> <span>${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => {
                 toast.style.transition = 'all 0.3s';
                 toast.style.opacity = '0';
                 setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            }, 2800);
         }
 
-        function showSection(section) {
-            document.querySelectorAll('.section').forEach(el => el.classList.add('hidden'));
-            document.getElementById(section).classList.remove('hidden');
-            currentSection = section;
-            currentPage = 1;
-            editId = null;
-
-            const titles = {
-                students: 'Студенты', groups: 'Группы', employees: 'Сотрудники',
-                orders: 'Приказы', subjects: 'Предметы', attestation: 'Аттестация'
-            };
-            const addTexts = {
-                students: 'Добавить студента', groups: 'Добавить группу', employees: 'Добавить сотрудника',
-                orders: 'Добавить приказ', subjects: 'Добавить предмет', attestation: 'Добавить аттестацию'
-            };
-
-            document.getElementById('pageTitle').innerText = titles[section];
-            document.getElementById('addButtonText').innerText = addTexts[section];
-
-            document.getElementById('groupFilterContainer').classList.toggle('hidden', section !== 'students');
-
-            if (section === 'students') loadStudents();
-            if (section === 'groups') loadGroups();
-            if (section === 'employees') loadEmployees();
-            if (section === 'orders') loadOrders();
-            if (section === 'subjects') loadSubjects();
-            if (section === 'attestation') loadAttestations();
+        async function loadJournalData() {
+            const [sRes, subRes, attRes] = await Promise.all([
+                fetch(`${API}/students/`),
+                fetch(`${API}/subjects/`),
+                fetch(`${API}/attestation/`)
+            ]);
+            students = await sRes.json();
+            subjects = await subRes.json();
+            attestations = await attRes.json();
         }
 
-        function filterTable() {
-            currentPage = 1;
-            renderCurrentTable();
-        }
-
-        function getFilteredData(section) {
-            let data = allData[section] || [];
-            const search = document.getElementById('searchInput').value.toLowerCase();
-
-            if (section === 'students') {
-                const groupFilter = document.getElementById('groupFilter')?.value;
-                data = data.filter(item => 
-                    item.full_name.toLowerCase().includes(search) &&
-                    (!groupFilter || item.group_id == groupFilter)
-                );
-            } else if (section === 'employees') {
-                data = data.filter(item => item.full_name.toLowerCase().includes(search));
-            } else if (section === 'groups' || section === 'subjects') {
-                data = data.filter(item => (item.name || '').toLowerCase().includes(search));
-            } else if (section === 'orders') {
-                data = data.filter(item => (item.order_number || '').toLowerCase().includes(search));
-            } else if (section === 'attestation') {
-                data = data.filter(item => 
-                    (item.student_id && item.student_id.toString().includes(search)) ||
-                    (item.subject_id && item.subject_id.toString().includes(search))
-                );
-            }
-            return data;
-        }
-
-        function renderPagination(section, totalItems) {
-            const container = document.getElementById(section + 'Pagination');
-            container.innerHTML = '';
-            const totalPages = Math.ceil(totalItems / pageSize);
-            if (totalPages <= 1) return;
-
-            for (let i = 1; i <= totalPages; i++) {
-                const btn = document.createElement('button');
-                btn.className = `px-4 py-1.5 rounded-lg border ${currentPage === i ? 'bg-blue-600 text-white' : 'bg-white hover:bg-gray-50'}`;
-                btn.textContent = i;
-                btn.onclick = () => {
-                    currentPage = i;
-                    renderCurrentTable();
-                };
-                container.appendChild(btn);
-            }
-        }
-
-        function renderCurrentTable() {
-            const section = currentSection;
-            const filtered = getFilteredData(section);
-            const start = (currentPage - 1) * pageSize;
-            const paginated = filtered.slice(start, start + pageSize);
-
-            let tbodyId = section + 'Table';
-            const tbody = document.getElementById(tbodyId);
-            if (!tbody) return;
-
-            let html = '';
-
-            if (section === 'students') {
-                html = paginated.map(s => `
-                    <tr>
-                        <td class="px-6 py-4">${s.full_name}</td>
-                        <td class="px-6 py-4">${s.group_id || '—'}</td>
-                        <td class="px-6 py-4 text-center">
-                            <button onclick="editItem('students', ${s.id})" class="text-blue-600 mx-1"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteItem('students', ${s.id})" class="text-red-600 mx-1"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
-            } else if (section === 'employees') {
-                html = paginated.map(e => `
-                    <tr>
-                        <td class="px-6 py-4">${e.full_name}</td>
-                        <td class="px-6 py-4">${e.position || '—'}</td>
-                        <td class="px-6 py-4 text-center">
-                            <button onclick="editItem('employees', ${e.id})" class="text-blue-600 mx-1"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteItem('employees', ${e.id})" class="text-red-600 mx-1"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
-            } else if (section === 'groups') {
-                html = paginated.map(g => `
-                    <tr>
-                        <td class="px-6 py-4">${g.name}</td>
-                        <td class="px-6 py-4">${g.speciality || '—'}</td>
-                        <td class="px-6 py-4 text-center">
-                            <button onclick="editItem('groups', ${g.id})" class="text-blue-600 mx-1"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteItem('groups', ${g.id})" class="text-red-600 mx-1"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
-            } else if (section === 'orders') {
-                html = paginated.map(o => `
-                    <tr>
-                        <td class="px-6 py-4">${o.order_number}</td>
-                        <td class="px-6 py-4">${o.order_date || '—'}</td>
-                        <td class="px-6 py-4 text-center">
-                            <button onclick="editItem('orders', ${o.id})" class="text-blue-600 mx-1"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteItem('orders', ${o.id})" class="text-red-600 mx-1"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
-            } else if (section === 'subjects') {
-                html = paginated.map(s => `
-                    <tr>
-                        <td class="px-6 py-4">${s.name}</td>
-                        <td class="px-6 py-4">${s.hours || '—'}</td>
-                        <td class="px-6 py-4 text-center">
-                            <button onclick="editItem('subjects', ${s.id})" class="text-blue-600 mx-1"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteItem('subjects', ${s.id})" class="text-red-600 mx-1"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
-            } else if (section === 'attestation') {
-                html = paginated.map(a => `
-                    <tr>
-                        <td class="px-6 py-4">${a.student_id}</td>
-                        <td class="px-6 py-4">${a.subject_id}</td>
-                        <td class="px-6 py-4">${a.grade || '—'}</td>
-                        <td class="px-6 py-4 text-center">
-                            <button onclick="editItem('attestation', ${a.id})" class="text-blue-600 mx-1"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteItem('attestation', ${a.id})" class="text-red-600 mx-1"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
-            }
-
-            tbody.innerHTML = html;
-            renderPagination(section, filtered.length);
-        }
-
-        // ==================== ЗАГРУЗКА ДАННЫХ ====================
-        async function loadStudents() {
-            const res = await fetch(`${API}/students/`);
-            allData.students = await res.json();
-            
-            // Заполняем фильтр групп
-            const groupsRes = await fetch(`${API}/groups/`);
-            const groups = await groupsRes.json();
-            const filter = document.getElementById('groupFilter');
-            filter.innerHTML = '<option value="">Все группы</option>';
-            groups.forEach(g => {
+        function populateFilters() {
+            // Группы
+            const groupSelect = document.getElementById('filterGroup');
+            groupSelect.innerHTML = '<option value="">Все группы</option>';
+            const uniqueGroups = [...new Set(students.map(s => s.group_id).filter(Boolean))];
+            uniqueGroups.forEach(gid => {
+                const student = students.find(s => s.group_id === gid);
                 const opt = document.createElement('option');
-                opt.value = g.id;
-                opt.textContent = g.name;
-                filter.appendChild(opt);
+                opt.value = gid;
+                opt.textContent = `Группа ${gid}`;
+                groupSelect.appendChild(opt);
             });
-            
-            renderCurrentTable();
+
+            // Предметы
+            const subjectSelect = document.getElementById('filterSubject');
+            subjectSelect.innerHTML = '<option value="">Все предметы</option>';
+            subjects.forEach(sub => {
+                const opt = document.createElement('option');
+                opt.value = sub.id;
+                opt.textContent = sub.name;
+                subjectSelect.appendChild(opt);
+            });
         }
 
-        async function loadGroups() {
-            const res = await fetch(`${API}/groups/`);
-            allData.groups = await res.json();
-            renderCurrentTable();
+        function filterJournal() {
+            const groupFilter = document.getElementById('filterGroup').value;
+            const subjectFilter = document.getElementById('filterSubject').value;
+
+            let filtered = attestations;
+
+            if (groupFilter) {
+                const groupStudents = students.filter(s => s.group_id == groupFilter).map(s => s.id);
+                filtered = filtered.filter(a => groupStudents.includes(a.student_id));
+            }
+
+            if (subjectFilter) {
+                filtered = filtered.filter(a => a.subject_id == subjectFilter);
+            }
+
+            renderJournalTable(filtered);
         }
 
-        async function loadEmployees() {
-            const res = await fetch(`${API}/employees/`);
-            allData.employees = await res.json();
-            renderCurrentTable();
+        function renderJournalTable(data) {
+            const tbody = document.getElementById('journalTable');
+            tbody.innerHTML = '';
+
+            data.forEach(item => {
+                const student = students.find(s => s.id === item.student_id);
+                const subject = subjects.find(s => s.id === item.subject_id);
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4">${student ? student.full_name : '—'}</td>
+                    <td class="px-6 py-4">${subject ? subject.name : '—'}</td>
+                    <td class="px-6 py-4 font-semibold">${item.grade || '—'}</td>
+                    <td class="px-6 py-4">${item.date || '—'}</td>
+                    <td class="px-6 py-4 text-center">
+                        <button onclick="editGrade(${item.id})" class="text-blue-600 mx-1"><i class="fas fa-edit"></i></button>
+                        <button onclick="deleteGrade(${item.id})" class="text-red-600 mx-1"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
         }
 
-        async function loadOrders() {
-            const res = await fetch(`${API}/orders/`);
-            allData.orders = await res.json();
-            renderCurrentTable();
-        }
-
-        async function loadSubjects() {
-            const res = await fetch(`${API}/subjects/`);
-            allData.subjects = await res.json();
-            renderCurrentTable();
-        }
-
-        async function loadAttestations() {
-            const res = await fetch(`${API}/attestation/`);
-            allData.attestation = await res.json();
-            renderCurrentTable();
-        }
-
-        // ==================== CRUD ====================
-        async function deleteItem(section, id) {
-            if (!confirm('Удалить запись?')) return;
-            try {
-                await fetch(`${API}/${section}/${id}`, { method: 'DELETE' });
-                showToast('Запись удалена', 'success');
-                if (section === 'students') await loadStudents();
-                if (section === 'groups') await loadGroups();
-                if (section === 'employees') await loadEmployees();
-                if (section === 'orders') await loadOrders();
-                if (section === 'subjects') await loadSubjects();
-                if (section === 'attestation') await loadAttestations();
-            } catch {
-                showToast('Ошибка при удалении', 'error');
+        async function showSection(section) {
+            if (section === 'journal') {
+                document.getElementById('pageTitle').innerText = 'Журнал оценок';
+                await loadJournalData();
+                populateFilters();
+                renderJournalTable(attestations);
             }
         }
 
-        async function editItem(section, id) {
-            editId = id;
-            const res = await fetch(`${API}/${section}/${id}`);
-            const data = await res.json();
-            openModal(true, section, data);
+        async function deleteGrade(id) {
+            if (!confirm('Удалить оценку?')) return;
+            await fetch(`${API}/attestation/${id}`, { method: 'DELETE' });
+            showToast('Оценка удалена');
+            await loadJournalData();
+            filterJournal();
         }
 
-        function openModal(isEdit = false, section = null, data = null) {
-            alert('Модальное окно (здесь должна быть форма). В реальной версии — используй предыдущий код.');
+        async function editGrade(id) {
+            editId = id;
+            const res = await fetch(`${API}/attestation/${id}`);
+            const data = await res.json();
+            openModal(true, data);
+        }
+
+        function openModal(isEdit = false, data = null) {
+            const modal = document.getElementById('modal');
+            const content = document.getElementById('modalContent');
+            modal.classList.remove('hidden');
+
+            document.getElementById('modalTitle').innerText = isEdit ? 'Редактировать оценку' : 'Добавить оценку';
+
+            let studentOptions = students.map(s => 
+                `<option value="${s.id}">${s.full_name}</option>`
+            ).join('');
+
+            let subjectOptions = subjects.map(s => 
+                `<option value="${s.id}">${s.name}</option>`
+            ).join('');
+
+            content.innerHTML = `
+                <form id="gradeForm">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Студент</label>
+                            <select id="student_id" class="w-full border px-4 py-2.5 rounded-xl" required>
+                                <option value="">Выберите студента</option>
+                                ${studentOptions}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Предмет</label>
+                            <select id="subject_id" class="w-full border px-4 py-2.5 rounded-xl" required>
+                                <option value="">Выберите предмет</option>
+                                ${subjectOptions}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Оценка</label>
+                            <input type="number" id="grade" value="${data?.grade || ''}" min="2" max="5" class="w-full border px-4 py-2.5 rounded-xl" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Дата</label>
+                            <input type="date" id="date" value="${data?.date || ''}" class="w-full border px-4 py-2.5 rounded-xl">
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl font-medium mt-2">
+                            ${isEdit ? 'Сохранить' : 'Добавить оценку'}
+                        </button>
+                    </div>
+                </form>
+            `;
+
+            // Заполняем значения при редактировании
+            if (isEdit && data) {
+                document.getElementById('student_id').value = data.student_id;
+                document.getElementById('subject_id').value = data.subject_id;
+            }
+
+            document.getElementById('gradeForm').onsubmit = async (e) => {
+                e.preventDefault();
+
+                const payload = {
+                    student_id: parseInt(document.getElementById('student_id').value),
+                    subject_id: parseInt(document.getElementById('subject_id').value),
+                    grade: parseInt(document.getElementById('grade').value),
+                    date: document.getElementById('date').value || null
+                };
+
+                try {
+                    if (editId) {
+                        await fetch(`${API}/attestation/${editId}`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        showToast('Оценка обновлена');
+                    } else {
+                        await fetch(`${API}/attestation/`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        showToast('Оценка добавлена');
+                    }
+                    closeModal();
+                    await loadJournalData();
+                    filterJournal();
+                } catch {
+                    showToast('Ошибка при сохранении', 'error');
+                }
+            };
         }
 
         function closeModal() {
@@ -436,8 +309,10 @@
             editId = null;
         }
 
-        window.onload = () => {
-            showSection('students');
+        // Инициализация
+        window.onload = async () => {
+            await loadJournalData();
+            showSection('journal');
         };
     </script>
 </body>
