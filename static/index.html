@@ -396,97 +396,151 @@
         }
 
         function openModal(isEdit = false, section = null, data = null) {
-            const modal = document.getElementById('modal');
-            const content = document.getElementById('modalContent');
-            modal.classList.remove('hidden');
-            const sec = section || currentSection;
+    const modal = document.getElementById('modal');
+    const content = document.getElementById('modalContent');
+    modal.classList.remove('hidden');
 
-            document.getElementById('modalTitle').innerText = isEdit ? 'Редактировать' : 'Добавить';
+    const sec = section || currentSection;
+    document.getElementById('modalTitle').innerText = isEdit ? 'Редактировать' : 'Добавить';
 
-            let html = '';
+    let html = '';
 
-            if (sec === 'students') {
-                html = `
-                    <form id="modalForm">
-                        <input type="text" id="full_name" placeholder="ФИО" value="${data?.full_name || ''}" class="w-full border p-3 rounded-xl mb-3" required>
-                        <input type="number" id="group_id" placeholder="ID группы" value="${data?.group_id || ''}" class="w-full border p-3 rounded-xl mb-3">
-                        <input type="text" id="phone" placeholder="Телефон" value="${data?.phone || ''}" class="w-full border p-3 rounded-xl mb-3">
-                        <input type="email" id="email" placeholder="Email" value="${data?.email || ''}" class="w-full border p-3 rounded-xl mb-3">
-                        <input type="date" id="enrollment_date" value="${data?.enrollment_date || ''}" class="w-full border p-3 rounded-xl mb-3">
-                        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
-                    </form>`;
-            } else if (sec === 'employees') {
-                html = `
-                    <form id="modalForm">
-                        <input type="text" id="full_name" placeholder="ФИО" value="${data?.full_name || ''}" class="w-full border p-3 rounded-xl mb-3" required>
-                        <input type="text" id="position" placeholder="Должность" value="${data?.position || ''}" class="w-full border p-3 rounded-xl mb-3">
-                        <input type="text" id="department" placeholder="Отдел" value="${data?.department || ''}" class="w-full border p-3 rounded-xl mb-3">
-                        <input type="text" id="phone" placeholder="Телефон" value="${data?.phone || ''}" class="w-full border p-3 rounded-xl mb-3">
-                        <input type="email" id="email" placeholder="Email" value="${data?.email || ''}" class="w-full border p-3 rounded-xl mb-3">
-                        <input type="date" id="employment_date" value="${data?.employment_date || ''}" class="w-full border p-3 rounded-xl mb-3">
-                        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
-                    </form>`;
+    if (sec === 'students') {
+        html = `
+            <form id="modalForm">
+                <input type="text" id="full_name" placeholder="ФИО" value="${data?.full_name || ''}" class="w-full border p-3 rounded-xl mb-3" required>
+                <input type="number" id="group_id" placeholder="ID группы" value="${data?.group_id || ''}" class="w-full border p-3 rounded-xl mb-3">
+                <input type="text" id="phone" placeholder="Телефон" value="${data?.phone || ''}" class="w-full border p-3 rounded-xl mb-3">
+                <input type="email" id="email" placeholder="Email" value="${data?.email || ''}" class="w-full border p-3 rounded-xl mb-3">
+                <input type="date" id="enrollment_date" value="${data?.enrollment_date || ''}" class="w-full border p-3 rounded-xl mb-3">
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
+            </form>`;
+    } 
+    else if (sec === 'employees') {
+        html = `
+            <form id="modalForm">
+                <input type="text" id="full_name" placeholder="ФИО" value="${data?.full_name || ''}" class="w-full border p-3 rounded-xl mb-3" required>
+                <input type="text" id="position" placeholder="Должность" value="${data?.position || ''}" class="w-full border p-3 rounded-xl mb-3">
+                <input type="text" id="department" placeholder="Отдел" value="${data?.department || ''}" class="w-full border p-3 rounded-xl mb-3">
+                <input type="text" id="phone" placeholder="Телефон" value="${data?.phone || ''}" class="w-full border p-3 rounded-xl mb-3">
+                <input type="email" id="email" placeholder="Email" value="${data?.email || ''}" class="w-full border p-3 rounded-xl mb-3">
+                <input type="date" id="employment_date" value="${data?.employment_date || ''}" class="w-full border p-3 rounded-xl mb-3">
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
+            </form>`;
+    } 
+    else if (sec === 'groups') {
+        html = `
+            <form id="modalForm">
+                <input type="text" id="name" placeholder="Название группы" value="${data?.name || ''}" class="w-full border p-3 rounded-xl mb-3" required>
+                <input type="text" id="speciality" placeholder="Специальность" value="${data?.speciality || ''}" class="w-full border p-3 rounded-xl mb-3">
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
+            </form>`;
+    } 
+    else if (sec === 'orders') {
+        html = `
+            <form id="modalForm">
+                <input type="text" id="order_number" placeholder="Номер приказа" value="${data?.order_number || ''}" class="w-full border p-3 rounded-xl mb-3" required>
+                <input type="date" id="order_date" value="${data?.order_date || ''}" class="w-full border p-3 rounded-xl mb-3">
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
+            </form>`;
+    } 
+    else if (sec === 'subjects') {
+        html = `
+            <form id="modalForm">
+                <input type="text" id="name" placeholder="Название предмета" value="${data?.name || ''}" class="w-full border p-3 rounded-xl mb-3" required>
+                <input type="number" id="hours" placeholder="Часы" value="${data?.hours || ''}" class="w-full border p-3 rounded-xl mb-3">
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
+            </form>`;
+    } 
+    else if (sec === 'journal') {
+        html = `
+            <form id="modalForm">
+                <input type="number" id="student_id" placeholder="ID студента" value="${data?.student_id || ''}" class="w-full border p-3 rounded-xl mb-3" required>
+                <input type="number" id="subject_id" placeholder="ID предмета" value="${data?.subject_id || ''}" class="w-full border p-3 rounded-xl mb-3" required>
+                <input type="number" id="grade" placeholder="Оценка (2-5)" min="2" max="5" value="${data?.grade || ''}" class="w-full border p-3 rounded-xl mb-3" required>
+                <input type="date" id="date" value="${data?.date || ''}" class="w-full border p-3 rounded-xl mb-3">
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl">Сохранить</button>
+            </form>`;
+    }
+
+    content.innerHTML = html;
+
+    // Обработчик отправки формы
+    document.getElementById('modalForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Сохранение...';
+
+        let payload = {};
+
+        if (sec === 'students') {
+            payload = {
+                full_name: form.full_name.value,
+                group_id: form.group_id.value || null,
+                phone: form.phone.value || null,
+                email: form.email.value || null,
+                enrollment_date: form.enrollment_date.value || null
+            };
+        } else if (sec === 'employees') {
+            payload = {
+                full_name: form.full_name.value,
+                position: form.position.value || null,
+                department: form.department.value || null,
+                phone: form.phone.value || null,
+                email: form.email.value || null,
+                employment_date: form.employment_date.value || null
+            };
+        } else if (sec === 'groups') {
+            payload = { name: form.name.value, speciality: form.speciality.value || null };
+        } else if (sec === 'orders') {
+            payload = { order_number: form.order_number.value, order_date: form.order_date.value || null };
+        } else if (sec === 'subjects') {
+            payload = { name: form.name.value, hours: form.hours.value || null };
+        } else if (sec === 'journal') {
+            const grade = parseInt(form.grade.value);
+            if (grade < 2 || grade > 5) {
+                showToast('Оценка должна быть от 2 до 5', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Сохранить';
+                return;
             }
-
-            content.innerHTML = html;
-
-            document.getElementById('modalForm').onsubmit = async (e) => {
-                e.preventDefault();
-                const form = e.target;
-                const submitBtn = form.querySelector('button[type="submit"]');
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Сохранение...';
-
-                let payload = {};
-                if (sec === 'students') {
-                    payload = {
-                        full_name: form.full_name.value,
-                        group_id: form.group_id.value || null,
-                        phone: form.phone.value || null,
-                        email: form.email.value || null,
-                        enrollment_date: form.enrollment_date.value || null
-                    };
-                } else if (sec === 'employees') {
-                    payload = {
-                        full_name: form.full_name.value,
-                        position: form.position.value || null,
-                        department: form.department.value || null,
-                        phone: form.phone.value || null,
-                        email: form.email.value || null,
-                        employment_date: form.employment_date.value || null
-                    };
-                }
-
-                try {
-                    const method = editId ? 'PUT' : 'POST';
-                    const url = editId ? `${API}/${sec}/${editId}` : `${API}/${sec}/`;
-                    const res = await fetch(url, {
-                        method,
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    if (!res.ok) throw new Error();
-                    showToast('Данные сохранены');
-                    closeModal();
-                    currentPage = 1;
-                    await loadData(sec);
-                } catch {
-                    showToast('Ошибка при сохранении', 'error');
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Сохранить';
-                }
+            payload = {
+                student_id: parseInt(form.student_id.value),
+                subject_id: parseInt(form.subject_id.value),
+                grade: grade,
+                date: form.date.value || null
             };
         }
 
-        function closeModal() {
-            document.getElementById('modal').classList.add('hidden');
-            editId = null;
-        }
+        try {
+            const method = editId ? 'PUT' : 'POST';
+            const url = editId ? `${API}/${sec}/${editId}` : `${API}/${sec}/`;
+            const res = await fetch(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
 
-        window.onload = () => {
-            showSection('students');
-        };
+            if (!res.ok) {
+                const errorText = await res.text();
+                throw new Error(errorText);
+            }
+
+            showToast('Данные сохранены');
+            closeModal();
+            currentPage = 1;
+            if (sec === 'journal') await loadJournal();
+            else await loadData(sec);
+        } catch (err) {
+            showToast('Ошибка при сохранении: ' + err.message, 'error');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Сохранить';
+        }
+    };
+}
     </script>
 </body>
 </html>
