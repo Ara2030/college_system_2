@@ -1,13 +1,14 @@
 from .base import Base
-from .workload import Workload
-from .group import Group
-from .student import Student, StudentStatus
-from .employee import Employee
-from .subject import Subject
-from .journal import Grade
-from .schedule import Lesson
-from .attestation import Attestation
-from .order import Order
+from .attestation import *
+from .employee import *
+from .group import *
+from .journal import *
+from .order import *
+from .schedule import *
+from .student import *
+from .subject import *
+from .workload import *
+from .department import *
 
 # Экспортируем все модели для удобного импорта
 __all__ = [
@@ -22,4 +23,5 @@ __all__ = [
     "Attestation",
     "Order",
     "Workload",
+    "Department",
 ]

@@ -1,18 +1,17 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
-from typing import Generator
-from app.config import SQLALCHEMY_DATABASE_URL
+from sqlalchemy.orm import sessionmaker, declarative_base
+from dotenv import load_dotenv
+import os
 
-# === Настройка подключения к базе данных ===
-# Замени строку ниже на свои данные подключения
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:password@localhost:5432/college_db"
+load_dotenv()
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
 
-
-# Зависимость для FastAPI (используется в роутерах)
-def get_db() -> Generator[Session, None, None]:
+def get_db():
     db = SessionLocal()
     try:
         yield db

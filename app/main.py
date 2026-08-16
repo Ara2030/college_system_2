@@ -1,28 +1,33 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-
-from app.routers import students, groups, journal, schedule, employees, subjects, attestation, orders
-from app.database import engine
-from app.models import Base
-
 from fastapi.staticfiles import StaticFiles
-# Создаём таблицы только если нужно (можно закомментировать при использовании Alembic)
-# Base.metadata.create_all(bind=engine)
+from sqlalchemy.orm import Session
 
-app = FastAPI(
-    title="Информационная система колледжа СПО",
-    version="1.0.0"
+from .database import engine, get_db
+from .models.base import Base          # ← Берём Base из models/base.py
+
+# === Важно: импортируем все модели ===
+from .models import *
+
+from app.routers import (
+    students, groups, journal, schedule, 
+    employees, subjects, attestation, orders
 )
+
+app = FastAPI(title="Информационная система колледжа СПО", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Подключение всех роутеров
+# Создаём таблицы
+Base.metadata.create_all(bind=engine)
+
+# Подключение роутеров
 app.include_router(students.router)
 app.include_router(groups.router)
 app.include_router(journal.router)
@@ -32,8 +37,15 @@ app.include_router(subjects.router)
 app.include_router(attestation.router)
 app.include_router(orders.router)
 
+# Статические файлы
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 @app.get("/")
 def root():
     return {"message": "ИС Колледжа работает"}
+
+
+@app.get("/test-db")
+def test_db(db: Session = Depends(get_db)):
+    return {"status": "Подключение к базе работает"}
