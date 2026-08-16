@@ -25,7 +25,7 @@ app.add_middleware(
 )
 
 # Создаём таблицы
-Base.metadata.create_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
 
 # Подключение роутеров
 app.include_router(students.router)
